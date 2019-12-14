@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export OMP_NUM_THREADS=12 #число потоков 
+
+g++ main.cpp  -fopenmp -lmpfr -lgmp -std=c++11 -o SOLVE 
+rm -f *.o
+
+./SOLVE | tee -a logfile.log
