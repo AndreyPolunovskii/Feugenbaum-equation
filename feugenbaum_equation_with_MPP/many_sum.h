@@ -133,19 +133,19 @@ private:
 int check_sumbol(string & stroka)
 {
    char mass[11] = {'0','1','2','3','4','5','6','7','8','9','-'};
-  
+
   for (int i = 0 ; i < 11 ;i++)
      if (mass[i] == stroka[0])
            return 1;
 
-  return 0; 
+  return 0;
 
 }
 //-------------------------
 void kill_comma(string & stroka)
-{  
+{
   for (int i=0; i < stroka.length(); i++)
-       if (stroka[i]==',')  
+       if (stroka[i]==',')
          {
            stroka[i] = '.' ;
            break;
@@ -155,18 +155,18 @@ void kill_comma(string & stroka)
 public:
 void input_from_file(int mantiss,scalar & alfa)
 {
-  
+
   int k = 0;
   int prec = 0;
   scalar count = 0;
   string line;
   ifstream indata("output_data_g.txt");
-  
+
   cout << endl;
-  
+
   while (indata)
   {
-   
+
     indata >> line;
     if ( check_sumbol(line)  )
      {
@@ -177,30 +177,30 @@ void input_from_file(int mantiss,scalar & alfa)
        if (k == 1)
        {
           count = line;
-          prec = (int) ( (count - 1) / log10(2) ) + 55; 
+          prec = (int) ( (count - 1) / log10(2) ) + 55;
           mpreal::set_default_prec(prec);
 
-       }     
+       }
 
        if (k == 3)
        {
-            alfa = line; 
+            alfa = line;
        }
 
        if (k > 3 && k < count + 4 && k < size1+4)
       {
          a[(k - 4)] = line;
-      } 
-           
-       
+      }
+
+
      }
-      else 
+      else
         continue;
-  
+
   }
     mpreal::set_default_prec(mantiss);
     indata.close();
-  
+
 }
  //------------------------------------
  many_sum & operator=(many_sum mass)
@@ -256,7 +256,7 @@ void input_from_file(int mantiss,scalar & alfa)
  {
 
        for (int i=1; i < a.size(); i++)
-       {   
+       {
            cout << "a[" <<2*i << "] = " << a[i] <<endl;
              cout << endl;
          }
@@ -265,50 +265,50 @@ void input_from_file(int mantiss,scalar & alfa)
 void output_in_file_coeff_a(int col_sign,scalar alfa)
  {
       system("cp /dev/null output_data_g.txt");
-     
-      fstream outdata("output_data_g.txt");
-  
-      outdata.setf(ios_base::fixed,ios_base::floatfield);//фиксируем плавающую точку
-      outdata.precision((int) (1.*col_sign));
 
-       outdata << " количество знаков после запятой = " << (int) (1.*col_sign) << endl;
+      fstream outdata("output_data_g.txt");
+
+      outdata.setf(ios_base::fixed,ios_base::floatfield);//фиксируем плавающую точку
+      outdata.precision((int) (2.*col_sign));
+
+       outdata << " количество знаков после запятой = " << (int) (2.*col_sign) << endl;
        outdata << " количество членов ряда = " << a.size() << endl;
        outdata << endl;
-   
+
        outdata<<"alfa = " << alfa << endl;
        outdata << endl;
-       
+
        for (int i=0; i < a.size() ; i++)
-       {   
+       {
            outdata << "a[" <<2*i << "] = " << a[i] <<endl;
              outdata << endl;
          }
-       
+
        outdata.close();
  }
 //----------------------------------------
 void output_in_file_coeff__buf_a(int col_sign,scalar alfa)
  {
       system("cp /dev/null output_data_buf_g.txt");
-     
+
       fstream outdata("output_data_buf_g.txt");
-  
+
       outdata.setf(ios_base::fixed,ios_base::floatfield);//фиксируем плавающую точку
       outdata.precision((int) (1.*col_sign));
 
        outdata << " количество знаков после запятой = " <<(int) (1 * col_sign) << endl;
        outdata << " количество членов ряда = " << a.size() << endl;
        outdata << endl;
-   
+
        outdata<<"alfa = " << alfa << endl;
        outdata << endl;
-       
+
        for (int i=0; i < a.size() ; i++)
-       {   
+       {
            outdata << "a[" <<2*i << "] = " << a[i] <<endl;
              outdata << endl;
          }
-       
+
        outdata.close();
  }
 //----------------------------------------

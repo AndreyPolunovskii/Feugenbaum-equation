@@ -29,21 +29,21 @@ void create_Mass_y2_n(many_sum & Mass, scalar & alpha , int & N)
 
    int k,n;
    vector <scalar> power(N+1,1);
-   
+
    power[1] *= pow(-alpha,2);
    for (k=2;k<N;k++)
        power[k] *= power[k-1]*pow(-alpha,2);
-    
+
     #pragma omp parallel for private(k)
     for (k = 0 ;k < N; k++)
     {
-    
+
              Mass.Mass_yn[1][k] = y2_0(k,Mass.a,power[k]);
     }
 
      k = 0;
 
-  for (n=2 ;n < N;n++) 
+  for (n=2 ;n < N;n++)
    {
     #pragma omp parallel for private(k)
      for (k=0 ;k < N;k++)
@@ -86,7 +86,7 @@ void alg_right_part(many_sum & Mass_in,scalar & alfa_in, many_sum & Mass_out,  s
     Mass_out = Mass_in;
 
     alfa_out = -Mass_in.sum_a2();
-       
+
    Mass_buf->~many_sum();
 
 }

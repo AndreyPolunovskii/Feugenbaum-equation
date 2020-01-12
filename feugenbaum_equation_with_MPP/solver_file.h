@@ -18,7 +18,7 @@ void funct_solver(int & number_it,int & col_massiv,int & prec)
     scalar err_a = 0;
 
     scalar k_alfa = 0;//порядок сходимости
-   
+
   //  Mass.initial_cond2();
     Mass.input_from_file(prec,alfa);
  //   Mass.output_coeff_a();
@@ -26,7 +26,7 @@ void funct_solver(int & number_it,int & col_massiv,int & prec)
 
 
     cout.setf(ios_base::fixed,ios_base::floatfield);
-    cout.precision(col_massiv+10);
+    cout.precision(2*col_massiv+10);
 
     // Mass.output_coeff_a();
 
@@ -57,7 +57,7 @@ void funct_solver(int & number_it,int & col_massiv,int & prec)
 
 
          err_alfa =  abs( alfa - alfa_buf1 ) ;
-       
+
        //  if (k_alfa  == inf ) break;
 
          alfa =  alfa_buf2 ;
@@ -67,7 +67,7 @@ void funct_solver(int & number_it,int & col_massiv,int & prec)
             cout << "ochibka vuch alpha ( for order_eq = " << col_massiv <<" ) = " << err_alfa << endl;
             cout << "vrema racheta = " << t1 << " sek" << endl;
             cout << endl;
-       
+
      //        Mass.output_coeff_a();
 
         //    cout << endl;
@@ -96,7 +96,7 @@ void funct_solver(int & number_it,int & col_massiv,int & prec)
     cout <<"перезаписать файл с g членами ? (Y/N) " << endl;
     char symb;
     cin >> symb;
- 
+
    if( symb == 'Y')
      Mass.output_in_file_coeff_a(col_massiv, alfa);
 
