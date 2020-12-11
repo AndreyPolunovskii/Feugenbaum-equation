@@ -85,7 +85,7 @@ for n_iter in range(N_iter):
     for i in range(1, N):
         a[i] = (a2[i]*a[i] - a1[i]**2)/(a2[i]-2*a1[i]+a[i])
     alfa = (alfa2*alfa-alfa1**2)/(alfa2-2*alfa1+alfa)
-
+    #вроде сразу не расходится
     print('a')
     print(a)
     print("alfa = ", alfa)
