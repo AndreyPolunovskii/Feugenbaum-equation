@@ -80,11 +80,11 @@ for n_iter in range(N_iter):
 
     a1, alfa1 = algorithm_v1(a, alfa)
 
-    a2, alfa2 = algorithm_v1(a, alfa)
+    a2, alfa2 = algorithm_v1(a1, alfa1)
 
     for i in range(1, N):
-        a[i] = a2[i] - (a2[i]-a1[i])**2/(a2[i]-2*a1[i]+a[i])
-    alfa = alfa2 - (alfa2-alfa1)**2/(alfa2-2*alfa1+alfa)
+        a[i] = (a2[i]*a[i] - a1[i]**2)/(a2[i]-2*a1[i]+a[i])
+    alfa = (alfa2*alfa-alfa1**2)/(alfa2-2*alfa1+alfa)
 
     print('a')
     print(a)
