@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from functools import reduce, partial
 from algorithms import algorithm_v1, algorithm_v2
-from global_funcs import N, fft_unique_convolution, invIF, g , diff_g
+from global_funcs import N, N_iter, fft_unique_convolution, invIF, g , diff_g
 from decimal import Decimal
 from scipy import optimize
 import cmath
@@ -28,7 +28,6 @@ def MethodN(f,diff_f,x0):
 fig, ax = plt.subplots()
 
 
-N_iter = 1
 
 #определяем начальные условия
 a = np.full(N, Decimal('0'))
@@ -79,12 +78,19 @@ I = complex(real=0,imag=1)
 for n_iter in range(N_iter):
     print('############################')
 
-    print(a,alfa)
-    a, alfa = algorithm_v2(a, alfa)
+    a1, alfa1 = algorithm_v1(a, alfa)
 
+    a2, alfa2 = algorithm_v1(a, alfa)
 
-    # print("alfa = ", alfa)
-    # print('\n')
+    for i in range(1, N):
+        a[i] = a2[i] - (a2[i]-a1[i])**2/(a2[i]-2*a1[i]+a[i])
+    alfa = alfa2 - (alfa2-alfa1)**2/(alfa2-2*alfa1+alfa)
+
+    print('a')
+    print(a)
+    print("alfa = ", alfa)
+    print('\n')
+
     #
     # z0 = 1
     # A = -0.65

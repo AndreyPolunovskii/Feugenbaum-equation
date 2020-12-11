@@ -10,6 +10,7 @@ def algorithm_v1(a, alfa):
     Betta = np.full((N, N), complex(real=0, imag=0))
 
     betta0 = invIF(fft_unique_convolution(a))
+    # print('betta0')
     # print(betta0)
     betta0[0] = 1 # сделано для повышения точности "не точного расчета fft"
     Betta[0] = fft(betta0)
@@ -18,6 +19,7 @@ def algorithm_v1(a, alfa):
     for p in range(1, N):
         for i in range(N):
             Betta[p][i] = pow(Betta[0][i], p+1)
+
 
     Betta = np.transpose(Betta)
 

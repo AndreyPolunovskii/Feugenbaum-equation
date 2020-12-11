@@ -2,7 +2,9 @@ from scipy.fft import fft, ifft
 from decimal import Decimal
 import numpy as np
 
-N = 20
+N = 270
+
+N_iter = 35
 
 def g(a,x):
     sum = 0
