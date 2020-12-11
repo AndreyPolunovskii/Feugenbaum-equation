@@ -34,21 +34,24 @@ void create_Mass_y2_n(many_sum & Mass, scalar & alpha , int & N)
    for (k=2;k<N;k++)
        power[k] *= power[k-1]*pow(-alpha,2);
 
-    #pragma omp parallel for private(k)
+
+
+    // #pragma omp parallel for private(k)
     for (k = 0 ;k < N; k++)
     {
 
              Mass.Mass_yn[1][k] = y2_0(k,Mass.a,power[k]);
-    }
 
+    }
      k = 0;
 
   for (n=2 ;n < N;n++)
    {
-    #pragma omp parallel for private(k)
+    // #pragma omp parallel for private(k)
      for (k=0 ;k < N;k++)
         {
          Mass.Mass_yn[n][k] = y2_n(k,n,Mass.Mass_yn);
+         // std::cout << Mass.Mass_yn[n][k] << " " <<n << " " << k <<  std::endl;
         }
     }
 
@@ -56,6 +59,7 @@ void create_Mass_y2_n(many_sum & Mass, scalar & alpha , int & N)
 //-----------------------------------
 scalar solve_right_Part(int n ,int k,const many_sum & Mass)
 {
+      std::cout << Mass.Mass_yn[n][k] << " " <<n << " " << k << " " << Mass.a[n] << std::endl;
        if (n == 1) return  Mass.a[1] * Mass.Mass_yn[1][k];
             else return  solve_right_Part(n-1,k,Mass) + Mass.a[n] * Mass.Mass_yn[n][k] ;
 }
@@ -77,10 +81,13 @@ void alg_right_part(many_sum & Mass_in,scalar & alfa_in, many_sum & Mass_out,  s
 
     size_t s;
 
-     #pragma omp parallel for private(s)
+     // #pragma omp parallel for private(s)
     for (s=2; s< (size_t)col_massiv;s++)
-             Mass_in.a[s] = - alfa_in * solve_right_Part((int)s,*Mass_buf,col_massiv) ;
+    {
+      Mass_in.a[s] = - alfa_in * solve_right_Part((int)s,*Mass_buf,col_massiv) ;
+      std::cout << Mass_in.a[s]/alfa_in << std::endl;
 
+    }
 
 
     Mass_out = Mass_in;

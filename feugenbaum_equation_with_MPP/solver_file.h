@@ -19,8 +19,8 @@ void funct_solver(int & number_it,int & col_massiv,int & prec)
 
     scalar k_alfa = 0;//порядок сходимости
 
-  //  Mass.initial_cond2();
-    Mass.input_from_file(prec,alfa);
+   Mass.initial_cond3();
+    // Mass.input_from_file(prec,alfa);
  //   Mass.output_coeff_a();
   //  cout << alfa << endl;
 
