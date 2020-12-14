@@ -1,10 +1,39 @@
 from scipy.fft import fft, ifft
 from decimal import Decimal
+from gmpy2 import mpc
 import numpy as np
+import gmpy2
 
-N = 20
+N = 150
 
-N_iter = 10
+N_iter = 170
+
+
+I = mpc("1j")
+Pi = gmpy2.asin(1)*mpc("2")
+
+def my_fft(X):
+    lN = X.shape[0]
+    Y = np.full(lN, mpc("0"))
+    for k in range(lN):
+        sum = mpc("0")
+        for n in range(lN):
+            sum += gmpy2.exp(-mpc("2")*Pi*I*k*n/lN)*X[n]
+        Y[k] = sum
+    return Y
+
+
+
+def my_ifft(Y):
+    lN = Y.shape[0]
+    X = np.full(lN,mpc("0"))
+    for n in range(lN):
+        sum = mpc("0")
+        for k in range(lN):
+            sum += gmpy2.exp(mpc("2")*Pi*I*k*n/lN)*Y[k]
+        X[n] = sum / lN
+    return X
+
 
 def g(a,x):
     sum = 0
@@ -32,7 +61,7 @@ def fft_convolution(f1,f2):
 
 def fft_unique_convolution(f1):
     """расчитываем свертку с помощью fft для кварата функции"""
-    return pow(fft(f1), 2)
+    return pow(my_fft(f1), 2)
 
 def fft_unique_convolution_range(f1,k):
     """расчитываем свертку с помощью fft для кварата функции"""

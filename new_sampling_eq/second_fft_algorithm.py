@@ -1,16 +1,16 @@
+import gmpy2
 import numpy as np
+from gmpy2 import mpc
 from scipy.fft import fft, ifft
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from functools import reduce, partial
-from algorithms import algorithm_v1, algorithm_v2
+from algorithms import algorithm_v1
 from global_funcs import N, N_iter, fft_unique_convolution, invIF, g , diff_g
-from decimal import Decimal
 from scipy import optimize
 import cmath
 import math
 
-I = complex(real=0,imag=1)
 
 
 def MethodN(f,diff_f,x0):
@@ -30,47 +30,48 @@ fig, ax = plt.subplots()
 
 
 #определяем начальные условия
-a = np.full(N, Decimal('0'))
-a_alfa = np.full(N, Decimal('0'))
+a = np.full(N, mpc('0'))
+a_alfa = np.full(N, mpc('0'))
 
-a[0] = Decimal('1.00000000000000')
-a[1] = Decimal('-1.5')
-a[2] = Decimal('0.1')
-a[3] = Decimal('0.026')
+a[0] = mpc('1.00000000000000')
+a[1] = mpc('-1.5')
+a[2] = mpc('0.1')
+a[3] = mpc('0.026')
 
-alfa = Decimal('2.50290787509588')
+alfa = mpc('2.50290787509588')
 
-Betta = np.full((N, N), complex(real=0, imag=0))
+Betta = np.full((N, N), mpc("0"))
 
-mass_alfa = np.full(N, Decimal('0'))
+mass_alfa = np.full(N, mpc("0"))
 
-x = np.full(N,float)
-y = np.full(N,float)
+x = np.full(N,mpc("0"))
+y = np.full(N,mpc("0"))
 
-x_buf = np.full(N,float)
-y_buf = np.full(N,float)
+x_buf = np.full(N,mpc("0"))
+y_buf = np.full(N,mpc("0"))
 
-x0 = np.full(N,float)
-y0 = np.full(N,float)
+x0 = np.full(N,mpc("0"))
+y0 = np.full(N,mpc("0"))
 
-Z0 = np.full(N,complex)
+Z0 = np.full(N,mpc("0"))
 
-ZN = np.full(N,complex)
+ZN = np.full(N,mpc("0"))
 
-x_fit = np.full(N,float)
-y_fit = np.full(N,float)
+x_fit = np.full(N,mpc("0"))
+y_fit = np.full(N,mpc("0"))
 
-x_res = np.full(N,float)
-y_res = np.full(N,float)
+x_res = np.full(N,mpc("0"))
+y_res = np.full(N,mpc("0"))
 
-x_alfa = np.full(N,float)
-y_alfa = np.full(N,float)
+x_alfa = np.full(N,mpc("0"))
+y_alfa = np.full(N,mpc("0"))
 
-I = complex(real=0,imag=1)
+I = mpc("1j")
 
-
-
-
+prec = 200
+gmpy2.get_context().precision = prec
+gmpy2.get_context().real_prec = prec
+gmpy2.get_context().imag_prec = prec
 
 
 # Пробуем первый быстрый численный алгоритм
@@ -78,13 +79,17 @@ I = complex(real=0,imag=1)
 for n_iter in range(N_iter):
     print('############################')
 
+
     a1, alfa1 = algorithm_v1(a, alfa)
 
     a2, alfa2 = algorithm_v1(a1, alfa1)
 
-    for i in range(1, N):
-        a[i] = (a2[i]*a[i] - a1[i]**2)/(a2[i]-2*a1[i]+a[i])
-    alfa = (alfa2*alfa-alfa1**2)/(alfa2-2*alfa1+alfa)
+    # for i in range(1, N):
+    #     a[i] = (a2[i]*a[i] - a1[i]**2)/(a2[i]-2*a1[i]+a[i])
+    # alfa = (alfa2*alfa-alfa1**2)/(alfa2-2*alfa1+alfa)
+
+    a = a2
+    alfa = alfa2
     #вроде сразу не расходится
     print('a')
     print(a)
