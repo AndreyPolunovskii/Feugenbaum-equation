@@ -7,13 +7,13 @@ new_a = np.full(N, mpc("0"))
 new_a[0] = mpc("1")
 
 def algorithm_v1(a, alfa):
-    Betta = np.full((N, N), complex(real=0, imag=0))
+    Betta = np.full((N, N), mpc("0"))
 
-    betta0 = my_ifft(fft_unique_convolution(a))
+    for i in range(N):
+        new_a[i] = a[i] / (- alfa)**(2*i)
 
-    # print('betta0')
-    # print(betta0)
-    betta0[0] = 1 # сделано для повышения точности "не точного расчета fft"
+    betta0 = my_ifft( fft_unique_convolution(new_a) )
+    betta0[0] = 1
     Betta[0] = my_fft(betta0)
 
     # по i 100% распараллеливается
@@ -34,7 +34,7 @@ def algorithm_v1(a, alfa):
     a = my_ifft(new_a)
 
     for i in range(2, N):
-        a[i] = a[i] / ((- alfa)**(2*i))
+        a[i] = a[i]
 
     a[0] = 1
 

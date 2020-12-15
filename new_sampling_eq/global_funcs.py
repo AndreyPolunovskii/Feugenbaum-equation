@@ -4,9 +4,9 @@ from gmpy2 import mpc
 import numpy as np
 import gmpy2
 
-N = 150
+N = 105
 
-N_iter = 170
+N_iter = 40
 
 
 I = mpc("1j")
